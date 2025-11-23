@@ -30,14 +30,14 @@
 - See: https://gitlab.freedesktop.org/monado/monado/-/issues
 
 ### 4inzler's changes
-- **crates/valve-pm/src/lib.rs**  
+- **Crates/valve-pm/src/lib.rs**  
   Reworked the station loop to match the updated btleplug API.  
   The new logic cleanly iterates peripherals without conflicting return types, adds safe early-continue
   conditions, removes unreachable async labels, and handles rescan/skip behavior in a predictable way.
-- **bin/driver-proxy/src/driver/hmd.rs**  
+- **Bin/driver-proxy/src/driver/hmd.rs**  
   Replaced try-blocks that produced mismatched `Result` types with explicit error-handling wrappers.  
   Projection and distortion functions now log failures and fall back to the original implementation instead
   of causing type errors.
-- **bin/driver-proxy/src/server/driver_host.rs**  
+- **Bin/driver-proxy/src/server/driver_host.rs**  
   Moved HMD initialization into a dedicated `Result<bool>` function.  
   Successful setup returns early; errors log cleanly without propagating incompatible `Result` types.
