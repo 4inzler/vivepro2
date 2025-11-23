@@ -4,7 +4,7 @@ This repository provides an updated and streamlined guide for enabling the **HTC
 
 Linux VR support continues to improve, and with the correct components in place, SteamVR 2.0+ can deliver a stable and usable VR experience.
 
-Special thanks to **CertainLach** and **santeri3700** for their significant contributions to Vive Pro 2 support on Linux, including kernel patches, driver development, and documentation.
+Special thanks to **CertainLach**, **santeri3700**,**RononDex** and community contributors for their work on kernel patches, drivers, and documentation that make Vive Pro 2 support on Linux possible.
 
 Helpful resources:
 - LVRA Wiki: https://lvra.gitlab.io/
@@ -62,25 +62,42 @@ If configured correctly, these commands should not prompt for a password.
 Reference driver project by CertainLach:  
 https://github.com/CertainLach/VivePro2-Linux-Driver
 
-See **STEAMVR.md** for complete installation instructions and setup notes.
+See **STEAMVR.md** for complete installation instructions.
 
 ---
 
 ### 4. Experimental Open-Source VR Stack (Optional)
 
-The repository provides optional documentation for running the Vive Pro 2 on a fully open-source VR stack using Monado and related components.
+Documentation is provided for running the Vive Pro 2 using fully open-source components such as Monado.
 
 See **OSS.md** for details.
 
 ---
 
-### 5. Rebuilding & Reinstalling the Vive Pro 2 Driver
+### 5. Install LibSurvive (optional but recommended)
+
+LibSurvive provides improved Lighthouse tracking tools and device support.  
+Install it with:
+
+    git clone https://github.com/cntools/libsurvive.git --recursive
+    cd libsurvive
+
+Install the udev rules:
+
+    sudo cp ./useful_files/81-vive.rules /etc/udev/rules.d/
+    sudo udevadm control --reload-rules && sudo udevadm trigger
+
+This ensures Lighthouse base stations and tracked devices are accessible to user-space drivers.
+
+---
+
+### 6. Rebuilding & Reinstalling the Vive Pro 2 Driver
 
 If you have an existing local checkout at:
 
 `~/Documents/random/vive-pro-2-on-linux/VivePro2-Linux-Driver`
 
-You can rebuild and reinstall the driver using the following commands:
+Rebuild and reinstall the driver with:
 
     cd ~/Documents/random/vive-pro-2-on-linux/VivePro2-Linux-Driver
 
