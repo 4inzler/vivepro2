@@ -1,0 +1,6 @@
+linux.deb
+headers.deb
+linux.pkg.tar.zst
+headers.pkg.tar.zst
+# I keep cloned kernel source code here
+kernel
