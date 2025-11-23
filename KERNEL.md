@@ -1,47 +1,100 @@
-# Linux with VIVE Pro 2 patches
+# Building the Patched Kernel for HTC Vive Pro 2 Support
 
-Kernel patches created by [CertainLach](https://github.com/CertainLach/VivePro2-Linux-Driver/).
+This document describes how to build and install the patched Linux kernel required for Vive Pro 2 support.  
+These patches originate from the work of **RononDex**, **CertainLach**, and community contributors.
 
-**NOTE:** The custom kernel is only designed to be installed on Arch Linux. \
-If you are on another distribution, will have to find out how to patch and compile a kernel on it (see CertainLach's repository). \
-I personally do not recommend using anything else than a bleeding edge distro for this at the moment. \
-See Kernel Patches section below for the patches used in this guide.
+The process below is intended for Arch Linux and Arch-based systems.
 
-### Enter the kernel directory
-- `cd kernel/`
+---
 
-### Build and install the patched kernel
-- Kernel version: `6.7.arch1-1`
+## 1. Clone the Kernel Source (RononDex Branch)
 
-#### Import GPG keys
-- `for key in ./keys/pgp/*.asc; do gpg --import $key; done`
+Clone the repository and move into the kernel directory:
 
-#### Build the custom kernel
-- `export MAKEFLAGS="-j $(nproc)"`
-- `makepkg -sc`
+    git clone https://github.com/RononDex/vive-pro-2-on-linux.git
+    cd vive-pro-2-on-linux/kernel/
 
-#### Install the custom kernel and update the bootloader (e.g. GRUB)
-- `makepkg -si`
-- `sudo grub-mkconfig -o /boot/grub/grub.cfg`
+---
 
-### Reboot and ensure you've booted with the patched kernel
-- `uname -r` should print `6.x.x-arch1-1-vivepro2`
-- You can now proceed with setting up SteamVR and/or the FOSS VR alternatives.
+## 2. Update Rust Toolchains
 
-## Kernel Patches
-- **[PATCH] drm/edid: Add Vive Pro 2 to non-desktop list**: https://lkml.org/lkml/2022/1/18/693
-  - Diff: https://lkml.org/lkml/diff/2022/1/18/693/1
-  - GitHub: https://github.com/CertainLach/VivePro2-Linux-Driver/blob/master/kernel-patches/0001-drm-edid-non-desktop.patch
-- **[PATCH v2] drm/edid: Support type 7 timings** (merged to upstream in Linux 5.18): https://lkml.org/lkml/2022/1/23/302
-  - Merged to upstream: https://github.com/torvalds/linux/commit/80ecb5d7c0f224218fdf956faec0ebe73d79f53d
-  - Diff: https://lkml.org/lkml/diff/2022/1/23/302/1
-  - GitHub: https://github.com/CertainLach/VivePro2-Linux-Driver/blob/master/kernel-patches/0002-drm-edid-type-7-timings.patch
-- **[PATCH v2 1/2] drm/edid: parse DRM VESA dsc bpp target**: https://lkml.org/lkml/2022/2/20/151
-  - Diff: https://lkml.org/lkml/diff/2022/2/20/151/1
-  - GitHub: https://github.com/CertainLach/VivePro2-Linux-Driver/blob/master/kernel-patches/0003-drm-edid-dsc-bpp-parse.patch
-- **[PATCH v2 2/2] drm/amd: use fixed dsc bits-per-pixel from edid**: https://lkml.org/lkml/2022/2/20/153
-  - Diff: https://lkml.org/lkml/diff/2022/2/20/153/1
-  - GitHub: https://github.com/CertainLach/VivePro2-Linux-Driver/blob/master/kernel-patches/0004-drm-amd-dsc-bpp-apply.patch
-- **[PATCH 1/1] HID: hidraw: Replace hidraw device table mutex with a rwsem**: https://lkml.org/lkml/2021/11/30/545
-  - Merged upstream: https://github.com/torvalds/linux/commit/8590222e4b021054a7167a4dd35b152a8ed7018e
-  - Diff: https://lkml.org/lkml/diff/2021/11/30/545/1
+The patched kernel and associated utilities require up-to-date Rust toolchains.
+
+Update existing toolchains:
+
+    rustup update
+
+Or install the nightly toolchain explicitly:
+
+    rustup toolchain install nightly
+
+---
+
+## 3. Import Kernel Developer Keys
+
+Kernel modules may be signed with bundled developer keys.  
+Import all PGP keys included in the repository:
+
+    for key in ./keys/pgp/*.asc; do
+        gpg --import "$key"
+    done
+
+You can verify imported keys using:
+
+    gpg --list-keys
+
+---
+
+## 4. Build the Patched Kernel Package
+
+Enable parallel compilation to speed up build time:
+
+    export MAKEFLAGS="-j $(nproc)"
+
+Build the kernel package:
+
+    makepkg -sc
+
+This step compiles the kernel, modules, and associated patches.
+
+---
+
+## 5. Install the Patched Kernel
+
+After a successful build, install the package with:
+
+    makepkg -si
+
+Follow any on-screen prompts.  
+Once the installation completes, **update your bootloader configuration**:
+
+- **GRUB**:  
+      sudo grub-mkconfig -o /boot/grub/grub.cfg
+
+- **systemd-boot**:  
+      sudo bootctl update
+
+- **rEFInd**:  
+  Should detect kernels automatically, but verify entries in `/boot`.
+
+Reboot into the new kernel after installation.
+
+---
+
+## 6. Verify Kernel Version
+
+After rebooting, confirm the patched kernel is running:
+
+    uname -r
+
+You should see a kernel version string matching the patched build.
+
+---
+
+## Notes
+
+- Building a kernel requires significant CPU time and disk space.  
+- Out-of-tree patches may break with newer toolchains—ensure your system is up to date.  
+- If you encounter build failures, verify Rust is correctly installed and that your base-devel group is fully installed.
+
+---
