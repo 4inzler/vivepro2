@@ -1,61 +1,86 @@
-# HTC VIVE Pro 2 on Linux 
+# HTC Vive Pro 2 on Linux (Updated)
 
-This guide is meant for tinkerers who know their way around.
+This repository provides a cleaned and updated guide for getting the HTC Vive Pro 2 working on Linux systems—focused primarily on Arch Linux and similarly cutting-edge environments.
 
-I do not recommend attempting to use the VIVE Pro 2 on anything other than bleeding edge systems (such as Arch Linux which is the main focus of this repository).
+Linux VR support continues to improve, and with the right setup, SteamVR 2.0+ can provide a solid experience as of 2024.
 
-The VR experience on Linux as of 2024-01-10 is decent when you can get SteamVR 2.0+ working.
+Special thanks to Both CertainLach and santeri3700 for their work on the kernel patches, documentation, and Linux driver support for the Vive Pro 2.
 
-**Thanks to [CertainLach](https://github.com/CertainLach/VivePro2-Linux-Driver) for creating the kernel patches and a driver for the VIVE Pro 2 on Linux!**
-
-Also see these helpful sources:
-- Linux VR Adventures Wiki: https://lvra.gitlab.io/
+Helpful resources:
+- LVRA Wiki: https://lvra.gitlab.io/
 - VR on Linux: https://vronlinux.org/
-- SteamVR for Linux Support: https://help.steampowered.com/en/faqs/view/18A4-1E10-8A94-3DDA
-- Reddit: https://www.reddit.com/r/virtualreality_linux/
+- SteamVR Linux Support: https://help.steampowered.com/en/faqs/view/18A4-1E10-8A94-3DDA
+- Reddit community: https://www.reddit.com/r/virtualreality_linux/
 
 ---
 
-## WORK IN PROGRESS
-**Updated**: 2024-01-10
+## Status
+This guide is a work in progress.
+Updated: 2024-01-10
+
+---
 
 ## Setup
 
-### Build and install the patched kernel
-- `cd kernel`
-- Follow [KERNEL.md](KERNEL.md)
+### 1. Build and Install the Patched Kernel
+From the root of this repository:
 
-### Install PolKit rule to allow setting CAP_SYS_NICE capabilities for the SteamVR compositor and/or Monado service without sudo
+    cd kernel
 
-**NOTE**: This rule assumes the following installation locations for SteamVR and Monado:
-- SteamVR: `/home/$USER/.steam/steam/steamapps/common/SteamVR/bin/linux64/vrcompositor-launcher`
-- SteamVR: `/home/$USER/.local/share/Steam/steamapps/common/SteamVR/bin/linux64/vrcompositor-launcher`
-- Monado: `/usr/bin/monado-service`
+Follow the instructions in KERNEL.md.
 
-Modify the rule if your home or SteamVR directory is elsewhere (which is unsupported by Steam as far as I know).
+---
 
-#### Install PolKit rule
-`sudo cp ./polkit-vr-setcap-nice.rules /etc/polkit-1/rules.d/90-vr-setcap-nice.rules`
+### 2. Install PolKit Rule for CAP_SYS_NICE
 
-#### Restart polkit.service and test the rules
-You should not be prompted for password when running the pkexec commands. \
-We will assume you have both SteamVR and Monado installed (not both are required however).
-- `sudo systemctl restart polkit.service`
-- `pkexec setcap CAP_SYS_NICE=eip /home/$USER/.steam/steam/steamapps/common/SteamVR/bin/linux64/vrcompositor-launcher`
-- `pkexec setcap CAP_SYS_NICE=eip /usr/bin/monado-service`
+A PolKit rule is included to allow SteamVR’s compositor or Monado to set the CAP_SYS_NICE capability without requiring sudo.
 
-### Install SteamVR and the VIVE Pro 2 Linux Driver by CertainLach
-- CertainLach's repository: https://github.com/CertainLach/VivePro2-Linux-Driver
-- CertainLach's Patreon: https://patreon.com/0lach
-- Instructions: [STEAMVR.md](STEAMVR.md)
+Default expected paths:
+- SteamVR (native):
+  /home/$USER/.steam/steam/steamapps/common/SteamVR/bin/linux64/vrcompositor-launcher
+- Monado service:
+  /usr/bin/monado-service
 
-### EXPERIMENTAL: VR with open source software
-- This is an open source alternative to the regular SteamVR and CertainLach's driver.
-- Instructions: [OSS.md](OSS.md)
+Adjust paths in the rule if your installation differs.
 
-## Playing VR games
-- See SteamVR instructions: [STEAMVR.md](STEAMVR.md)
-- See experimental OSS instructions: [OSS.md](OSS.md)
+#### Install the rule:
+
+    sudo cp ./polkit-vr-setcap-nice.rules /etc/polkit-1/rules.d/90-vr-setcap-nice.rules
+
+#### Restart PolKit and test:
+
+    sudo systemctl restart polkit.service
+    pkexec setcap CAP_SYS_NICE=eip /home/$USER/.steam/steam/steamapps/common/SteamVR/bin/linux64/vrcompositor-launcher
+    pkexec setcap CAP_SYS_NICE=eip /usr/bin/monado-service
+
+If the rule is correct, these commands should not prompt for a password.
+
+---
+
+### 3. Install SteamVR and the Vive Pro 2 Linux Driver
+
+Reference driver and documentation:
+- CertainLach’s Vive Pro 2 Driver: https://github.com/CertainLach/VivePro2-Linux-Driver
+
+Follow the setup steps in STEAMVR.md for full installation instructions.
+
+---
+
+### 4. Experimental Open-Source VR Stack (Optional)
+
+This repository also includes notes for running the Vive Pro 2 with open-source VR components instead of SteamVR and the proprietary driver.
+
+See OSS.md for details.
+
+---
+
+## Playing VR Games
+
+- For SteamVR usage → see STEAMVR.md
+- For experimental OSS VR → see OSS.md
+
+---
 
 ## Troubleshooting
-See: [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
+
+Consult TROUBLESHOOTING.md for common issues and solutions.
