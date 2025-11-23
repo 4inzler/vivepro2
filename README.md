@@ -66,14 +66,6 @@ See **STEAMVR.md** for complete installation instructions.
 
 ---
 
-### 4. Experimental Open-Source VR Stack (Optional)
-
-Documentation is provided for running the Vive Pro 2 using fully open-source components such as Monado.
-
-See **OSS.md** for details.
-
----
-
 ### 5. Install LibSurvive (optional but recommended)
 
 LibSurvive provides improved Lighthouse tracking tools and device support.  
