@@ -15,8 +15,8 @@ Helpful resources:
 ---
 
 ## Status
-This guide is a work in progress.  
-Last updated: 2024-01-10
+Final guide that works thanks to 4inzler for putting everything together :D
+Last updated: 2025-11-23
 
 ---
 
