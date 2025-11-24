@@ -4,7 +4,7 @@ This repository provides an updated and streamlined guide for enabling the **HTC
 
 Linux VR support continues to improve, and with the correct components in place, SteamVR 2.0+ can deliver a stable and usable VR experience.
 
-Special thanks to **CertainLach**, **santeri3700**,**RononDex** and community contributors for their work on kernel patches, drivers, and documentation that make Vive Pro 2 support on Linux possible.
+Special thanks to **CertainLach**, **santeri3700**, **RononDex** and community contributors for their work on kernel patches, drivers, and documentation that make Vive Pro 2 support on Linux possible.
 
 Helpful resources:
 - LVRA Wiki: https://lvra.gitlab.io/
