@@ -67,13 +67,8 @@ https://github.com/CertainLach/VivePro2-Linux-Driver
 ### 4. Install LibSurvive.
 
 LibSurvive provides improved Lighthouse tracking tools and device support.  
-Install it with:
-
-    git clone https://github.com/cntools/libsurvive.git --recursive
+use it with:
     cd libsurvive
-
-Install the udev rules:
-
     sudo cp ./useful_files/81-vive.rules /etc/udev/rules.d/
     sudo udevadm control --reload-rules && sudo udevadm trigger
 
