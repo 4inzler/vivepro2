@@ -62,11 +62,9 @@ If configured correctly, these commands should not prompt for a password.
 Reference driver project by CertainLach:  
 https://github.com/CertainLach/VivePro2-Linux-Driver
 
-See **STEAMVR.md** for complete installation instructions.
-
 ---
 
-### 5. Install LibSurvive (optional but recommended)
+### 4. Install LibSurvive.
 
 LibSurvive provides improved Lighthouse tracking tools and device support.  
 Install it with:
@@ -83,13 +81,13 @@ This ensures Lighthouse base stations and tracked devices are accessible to user
 
 ---
 
-### 6. Rebuilding & Reinstalling the Vive Pro 2 Driver
+### 5. Rebuilding & Reinstalling the Vive Pro 2 Driver
 
 If you have an existing local checkout at:
 
 `~/Documents/random/vive-pro-2-on-linux/VivePro2-Linux-Driver`
 
-Rebuild and reinstall the driver with:
+Install the main driver with:
 
     cd ~/Documents/random/vive-pro-2-on-linux/VivePro2-Linux-Driver
 
@@ -111,13 +109,6 @@ Rebuild and reinstall the driver with:
     sudo setcap CAP_SYS_NICE=eip ~/.local/share/Steam/steamapps/common/SteamVR/bin/linux64/vrcompositor-launcher
 
 After completing the steps above, launch Steam → SteamVR and perform Room Setup.
-
----
-
-## Playing VR Games
-
-- For SteamVR usage → see **STEAMVR.md**  
-- For experimental open-source VR setups → see **OSS.md**
 
 ---
 
